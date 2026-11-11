@@ -1,13 +1,27 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <title>{{ $book['title'] }}</title>
-</head>
-<body>
-  <h1>{{ $book['title'] }}</h1>
-  <p>著者：{{ $book['author'] }}</p>
-  <p>価格：{{ $book['price'] }}円</p>
-  <p><a href="{{ route('books.index') }}">一覧へ戻る</a></p>
-</body>
-</html>
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Book;
+use Illuminate\Http\Request;
+
+class BookController extends Controller
+{
+    public function index()
+    {
+        $books = Book::all();
+
+        return view('books.index', [
+            'title' => '本棚',
+            'owner' => '山田',
+            'books' => $books,
+        ]);
+    }
+
+    public function show($id)
+    {
+        $book = Book::findOrFail($id);
+
+        return view('books.show', ['book' => $book]);
+    }
+}
